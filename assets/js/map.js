@@ -225,6 +225,19 @@ var MapBase = {
 
     localStorage.setItem('main.date', date);
 
+    // Pull settings from URL.
+    const settingsUrl = getParameterByName('settingsUrl');
+    if (settingsUrl && history.pushState) {
+      // Move settingsUrl param into the hash, so that setSettings doesn't
+      // cause a reload loop.
+      const cleanedUrl = removeParameterByName('settingsUrl').replace(window.location.hash, '');
+      const newUrl = cleanedUrl + '#settingsUrl=' + encodeURIComponent(settingsUrl);
+      history.pushState({}, null, newUrl);
+
+      $.getJSON(settingsUrl, setSettings)
+
+    }
+
     MapBase.addMarkers(true);
 
     // Do search via URL.
