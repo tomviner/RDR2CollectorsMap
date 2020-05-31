@@ -234,6 +234,11 @@ var MapBase = {
       const newUrl = cleanedUrl + '#settingsUrl=' + encodeURIComponent(settingsUrl);
       history.pushState({}, null, newUrl);
 
+      // Reset settings
+      $.each(localStorage, function (key, value) {
+        localStorage.removeItem(key);
+      });
+      // Fetch settings data, and set in local storage
       $.getJSON(settingsUrl, setSettings)
 
     }
